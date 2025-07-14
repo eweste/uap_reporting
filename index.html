@@ -92,7 +92,8 @@
 
       // Locate and Search widgets
       view.ui.add(new Locate({ view }), "top-left");
-      view.ui.add(new Search({ view }), "bottom-right");
+      
+      
 
       // Custom renderer using your UFO icon
       const uapRenderer = {
@@ -135,6 +136,26 @@
 
       map.add(uapLayer);
 
+      // Search widget to search dates of incident, moved below feature layer
+      const searchWidget = new Search({
+                
+        view: view,
+        sources: [{
+                    layer: uapLayer,
+                    searchFields: ["time_of_incident"],
+                    displayField: "time_of_incident", 
+                    exactMatch: false,
+                    suggestionsEnabled: true,
+                    minSuggestCharacters: 0,
+                    name: "UFO Search",
+                    
+                }]
+      });
+
+      view.ui.add(searchWidget, {
+          position: "bottom-right"
+      });
+    
       // Legend widget setup
       const legend = new Legend({
         view: view,
